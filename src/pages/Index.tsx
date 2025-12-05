@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const Index = () => {
   const features = [
@@ -65,67 +66,69 @@ const Index = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="gradient-hero pt-32 pb-20">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 animate-fade-in">
-                Modern School
-                <span className="text-gradient block">Management System</span>
-              </h1>
-              <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-                Manage attendance, finance, records, and student performance in one powerful platform.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: "0.2s" }}>
-                <Link to="/signup">
-                  <Button size="lg" className="btn-primary text-base px-8">
-                    <i className="fas fa-rocket mr-2"></i>
-                    Get Started
-                  </Button>
-                </Link>
-                <Link to="/demo">
-                  <Button size="lg" variant="outline" className="btn-outline text-base px-8">
-                    <i className="fas fa-play mr-2"></i>
-                    View Demo
-                  </Button>
-                </Link>
-              </div>
+      <section 
+        className="relative min-h-[90vh] flex items-center pt-16"
+        style={{
+          backgroundImage: `url(${heroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/60 to-transparent"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30 mb-6 animate-fade-in">
+              <i className="fas fa-graduation-cap text-primary-foreground"></i>
+              <span className="text-sm font-medium text-primary-foreground">Trusted by 500+ Schools</span>
             </div>
-            <div className="relative animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <div className="bg-card rounded-2xl shadow-xl p-6 border border-border">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-destructive"></div>
-                  <div className="w-3 h-3 rounded-full bg-warning"></div>
-                  <div className="w-3 h-3 rounded-full bg-success"></div>
-                </div>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="stat-card">
-                      <i className="fas fa-users text-primary text-2xl mb-2"></i>
-                      <p className="text-2xl font-bold text-foreground">1,234</p>
-                      <p className="text-sm text-muted-foreground">Total Students</p>
-                    </div>
-                    <div className="stat-card">
-                      <i className="fas fa-chalkboard-teacher text-success text-2xl mb-2"></i>
-                      <p className="text-2xl font-bold text-foreground">87</p>
-                      <p className="text-sm text-muted-foreground">Teachers</p>
-                    </div>
-                  </div>
-                  <div className="stat-card">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-medium text-foreground">Attendance Rate</span>
-                      <span className="text-sm font-bold text-success">94%</span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div className="h-full gradient-primary rounded-full" style={{ width: "94%" }}></div>
-                    </div>
-                  </div>
-                </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in">
+              Modern School
+              <span className="block text-primary">Management System</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed animate-fade-in" style={{ animationDelay: "0.1s" }}>
+              Manage attendance, finance, records, and student performance in one powerful platform. Streamline your school operations today.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+              <Link to="/signup">
+                <Button size="lg" className="btn-primary text-base px-8 py-6">
+                  <i className="fas fa-rocket mr-2"></i>
+                  Get Started Free
+                </Button>
+              </Link>
+              <Link to="/demo">
+                <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 text-base px-8 py-6">
+                  <i className="fas fa-play-circle mr-2"></i>
+                  Watch Demo
+                </Button>
+              </Link>
+            </div>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-3 gap-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+              <div className="text-center sm:text-left">
+                <p className="text-3xl md:text-4xl font-bold text-primary-foreground">100K+</p>
+                <p className="text-sm text-primary-foreground/70">Students Managed</p>
               </div>
-              <div className="absolute -bottom-4 -left-4 w-20 h-20 gradient-primary rounded-2xl opacity-20 animate-float"></div>
-              <div className="absolute -top-4 -right-4 w-16 h-16 bg-success rounded-full opacity-20 animate-float" style={{ animationDelay: "1s" }}></div>
+              <div className="text-center sm:text-left">
+                <p className="text-3xl md:text-4xl font-bold text-primary-foreground">15K+</p>
+                <p className="text-sm text-primary-foreground/70">Active Teachers</p>
+              </div>
+              <div className="text-center sm:text-left">
+                <p className="text-3xl md:text-4xl font-bold text-primary-foreground">99.9%</p>
+                <p className="text-sm text-primary-foreground/70">Uptime</p>
+              </div>
             </div>
           </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <i className="fas fa-chevron-down text-primary-foreground/50 text-2xl"></i>
         </div>
       </section>
 
