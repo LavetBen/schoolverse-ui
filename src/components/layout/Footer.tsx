@@ -35,21 +35,21 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
-                <i className="fas fa-graduation-cap text-lg"></i>
+            <Link to="/" className="flex items-center gap-3 mb-4">
+              <div className="w-11 h-11 gradient-hero rounded-xl flex items-center justify-center">
+                <i className="fas fa-bolt text-lg"></i>
               </div>
-              <span className="text-xl font-bold">EduManage</span>
+              <span className="text-2xl font-bold tracking-tight">NEXA</span>
             </Link>
             <p className="text-primary-foreground/70 mb-6 max-w-sm">
-              Simplifying school management with modern technology. Empowering educators to focus on what matters most.
+              The future of school management. Empowering educators with modern technology to focus on what matters most — students.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.url}
-                  className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors duration-200"
+                  className="w-10 h-10 rounded-xl bg-primary-foreground/10 flex items-center justify-center hover:bg-primary hover:scale-105 transition-all duration-200"
                 >
                   <i className={`fab ${social.icon}`}></i>
                 </a>
@@ -112,7 +112,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-primary-foreground/60 text-sm">
-            © {currentYear} EduManage. All rights reserved.
+            © {currentYear} NEXA. All rights reserved.
           </p>
           <p className="text-primary-foreground/60 text-sm">
             Made with <i className="fas fa-heart text-primary"></i> for educators worldwide

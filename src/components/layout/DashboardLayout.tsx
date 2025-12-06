@@ -41,10 +41,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           {/* Logo */}
           <div className="p-4 border-b border-border">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                <i className="fas fa-graduation-cap text-primary-foreground"></i>
+              <div className="w-10 h-10 gradient-hero rounded-xl flex items-center justify-center flex-shrink-0">
+                <i className="fas fa-bolt text-primary-foreground"></i>
               </div>
-              {sidebarOpen && <span className="text-lg font-bold text-foreground">EduManage</span>}
+              {sidebarOpen && <span className="text-xl font-bold text-gradient">NEXA</span>}
             </Link>
           </div>
 
