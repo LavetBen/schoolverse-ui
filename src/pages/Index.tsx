@@ -114,25 +114,6 @@ const Index = () => {
                   </Button>
                 </Link>
               </div>
-              
-              {/* Trust Badges */}
-              <div className="flex items-center gap-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-                <div className="flex -space-x-3">
-                  {['SJ', 'MC', 'ER', 'JD'].map((initials, i) => (
-                    <div key={i} className="w-10 h-10 rounded-full gradient-hero flex items-center justify-center text-primary-foreground text-sm font-semibold border-2 border-background">
-                      {initials}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <div className="flex items-center gap-1 text-warning">
-                    {[...Array(5)].map((_, i) => (
-                      <i key={i} className="fas fa-star text-sm"></i>
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground">4.9/5 from 2,000+ reviews</p>
-                </div>
-              </div>
             </div>
 
             {/* Right Content - Dashboard Preview */}
