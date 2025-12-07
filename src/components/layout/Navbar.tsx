@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import nexaLogo from "@/assets/nexa-logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,16 +37,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="w-11 h-11 gradient-hero rounded-xl flex items-center justify-center shadow-button transition-transform duration-300 group-hover:scale-105">
-                <i className="fas fa-bolt text-primary-foreground text-lg"></i>
-              </div>
-              <div className="absolute -inset-1 gradient-hero rounded-xl opacity-30 blur-sm group-hover:opacity-50 transition-opacity"></div>
-            </div>
-            <span className="text-2xl font-bold tracking-tight">
-              <span className="text-gradient">NEXA</span>
-            </span>
+          <Link to="/" className="flex items-center group">
+            <img src={nexaLogo} alt="NEXA" className="h-8 md:h-10 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
