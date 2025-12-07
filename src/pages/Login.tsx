@@ -12,8 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async (path: string) => {
     setIsLoading(true);
 
     // Simulate login
@@ -21,10 +20,15 @@ const Login = () => {
       setIsLoading(false);
       toast({
         title: "Welcome back!",
-        description: "You have successfully logged in.",
+        description: `You have successfully logged in as ${path.split("/")[1]}.`,
       });
-      navigate("/dashboard");
+      navigate(path);
     }, 1000);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleLogin("/admin"); // Default to admin if form submitted directly
   };
 
   return (
@@ -101,14 +105,54 @@ const Login = () => {
             </div>
 
             {/* Submit */}
-            <Button type="submit" className="w-full btn-primary" disabled={isLoading}>
-              {isLoading ? (
-                <i className="fas fa-spinner fa-spin mr-2"></i>
-              ) : (
-                <i className="fas fa-sign-in-alt mr-2"></i>
-              )}
-              {isLoading ? "Signing in..." : "Sign In"}
-            </Button>
+            {/* Role Selection (Simulation) */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-foreground">
+                Select Role to Simulate Login
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  type="button"
+                  onClick={() => handleLogin("/admin")}
+                  className="w-full"
+                  variant="outline"
+                  disabled={isLoading}
+                >
+                  <i className="fas fa-user-shield mr-2"></i>
+                  Admin
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleLogin("/accountant")}
+                  className="w-full"
+                  variant="outline"
+                  disabled={isLoading}
+                >
+                  <i className="fas fa-calculator mr-2"></i>
+                  Accountant
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleLogin("/teacher")}
+                  className="w-full"
+                  variant="outline"
+                  disabled={isLoading}
+                >
+                  <i className="fas fa-chalkboard-teacher mr-2"></i>
+                  Teacher
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleLogin("/student")}
+                  className="w-full"
+                  variant="outline"
+                  disabled={isLoading}
+                >
+                  <i className="fas fa-user-graduate mr-2"></i>
+                  Student
+                </Button>
+              </div>
+            </div>
           </form>
 
           {/* Divider */}

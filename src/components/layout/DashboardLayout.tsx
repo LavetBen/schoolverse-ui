@@ -1,31 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { SidebarItem } from "@/config/navigation";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
+  navItems: SidebarItem[];
+  userRole: string;
 }
 
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const sidebarItems = [
-    { id: "dashboard", icon: "fa-home", label: "Dashboard", path: "/dashboard" },
-    { id: "students", icon: "fa-users", label: "Students", path: "/dashboard/students" },
-    { id: "teachers", icon: "fa-chalkboard-teacher", label: "Teachers", path: "/dashboard/teachers" },
-    { id: "finance", icon: "fa-coins", label: "Finance", path: "/dashboard/finance" },
-    { id: "attendance", icon: "fa-clock", label: "Attendance", path: "/dashboard/attendance" },
-    { id: "exams", icon: "fa-file-alt", label: "Exams", path: "/dashboard/exams" },
-    { id: "records", icon: "fa-book-open", label: "Records", path: "/dashboard/records" },
-    { id: "notices", icon: "fa-bell", label: "Notices", path: "/dashboard/notices" },
-    { id: "settings", icon: "fa-cog", label: "Settings", path: "/dashboard/settings" },
-  ];
-
   const getPageTitle = () => {
-    const currentItem = sidebarItems.find(item => item.path === location.pathname);
+    const currentItem = navItems.find(item => item.path === location.pathname);
     return currentItem?.label || "Dashboard";
   };
 
@@ -33,9 +24,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 bg-card border-r border-border transition-all duration-300 ${
-          sidebarOpen ? "w-64" : "w-20"
-        }`}
+        className={`fixed lg:static inset-y-0 left-0 z-50 bg-card border-r border-border transition-all duration-300 ${sidebarOpen ? "w-64" : "w-20"
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
@@ -50,13 +40,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
           {/* Nav Items */}
           <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-            {sidebarItems.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.id}
                 to={item.path}
-                className={`w-full sidebar-item ${
-                  location.pathname === item.path ? "sidebar-item-active" : ""
-                }`}
+                className={`w-full sidebar-item ${location.pathname === item.path ? "sidebar-item-active" : ""
+                  }`}
               >
                 <i className={`fas ${item.icon} text-lg w-6`}></i>
                 {sidebarOpen && <span>{item.label}</span>}
@@ -68,12 +57,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <div className="p-4 border-t border-border">
             <div className={`flex items-center gap-3 mb-4 ${sidebarOpen ? "" : "justify-center"}`}>
               <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-semibold flex-shrink-0">
-                AD
+                {userRole.substring(0, 2).toUpperCase()}
               </div>
               {sidebarOpen && (
                 <div className="overflow-hidden">
-                  <p className="font-medium text-foreground text-sm truncate">Admin User</p>
-                  <p className="text-xs text-muted-foreground truncate">admin@school.edu</p>
+                  <p className="font-medium text-foreground text-sm truncate">{userRole}</p>
+                  <p className="text-xs text-muted-foreground truncate">{userRole.toLowerCase().replace(" ", "")}@school.edu</p>
                 </div>
               )}
             </div>

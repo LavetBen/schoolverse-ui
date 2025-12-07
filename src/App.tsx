@@ -9,7 +9,10 @@ import Pricing from "./pages/Pricing";
 import Demo from "./pages/Demo";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/role-dashboards/AdminDashboard";
+import AccountantDashboard from "./pages/role-dashboards/AccountantDashboard";
+import TeacherDashboard from "./pages/role-dashboards/TeacherDashboard";
+import StudentDashboard from "./pages/role-dashboards/StudentDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,7 +30,10 @@ const App = () => (
           <Route path="/demo" element={<Demo />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/admin/*" element={<AdminDashboard />} />
+          <Route path="/accountant/*" element={<AccountantDashboard />} />
+          <Route path="/teacher/*" element={<TeacherDashboard />} />
+          <Route path="/student/*" element={<StudentDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

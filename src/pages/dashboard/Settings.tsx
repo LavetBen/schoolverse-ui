@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { useTheme } from "@/components/theme-provider";
 
 const Settings = () => {
+  const { theme, setTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("profile");
 
   const tabs = [
@@ -31,11 +33,10 @@ const Settings = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors ${
-                    activeTab === tab.id
-                      ? "bg-primary/10 text-primary"
-                      : "hover:bg-muted text-muted-foreground"
-                  }`}
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors ${activeTab === tab.id
+                    ? "bg-primary/10 text-primary"
+                    : "hover:bg-muted text-muted-foreground"
+                    }`}
                 >
                   <i className={`fas ${tab.icon} w-5`}></i>
                   <span className="font-medium">{tab.label}</span>
@@ -50,7 +51,7 @@ const Settings = () => {
           {activeTab === "profile" && (
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="text-lg font-semibold text-foreground mb-6">Profile Settings</h3>
-              
+
               {/* Avatar */}
               <div className="flex items-center gap-6 mb-8 pb-6 border-b border-border">
                 <div className="w-20 h-20 gradient-primary rounded-full flex items-center justify-center text-primary-foreground text-2xl font-semibold">
@@ -84,7 +85,7 @@ const Settings = () => {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="text-sm font-medium text-foreground mb-2 block">Bio</label>
-                  <textarea 
+                  <textarea
                     className="w-full min-h-[100px] px-3 py-2 bg-background border border-input rounded-lg text-foreground"
                     defaultValue="School administrator with 10+ years of experience in educational management."
                   />
@@ -161,7 +162,7 @@ const Settings = () => {
           {activeTab === "security" && (
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="text-lg font-semibold text-foreground mb-6">Security Settings</h3>
-              
+
               <div className="space-y-6">
                 {/* Change Password */}
                 <div className="pb-6 border-b border-border">
@@ -223,7 +224,7 @@ const Settings = () => {
           {activeTab === "appearance" && (
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="text-lg font-semibold text-foreground mb-6">Appearance Settings</h3>
-              
+
               <div className="space-y-6">
                 {/* Theme */}
                 <div className="pb-6 border-b border-border">
@@ -233,17 +234,17 @@ const Settings = () => {
                       { name: "Light", icon: "fa-sun" },
                       { name: "Dark", icon: "fa-moon" },
                       { name: "System", icon: "fa-laptop" },
-                    ].map((theme) => (
+                    ].map((t) => (
                       <button
-                        key={theme.name}
-                        className={`p-4 rounded-lg border-2 text-center transition-colors ${
-                          theme.name === "Light" 
-                            ? "border-primary bg-primary/10" 
-                            : "border-border hover:border-primary/50"
-                        }`}
+                        key={t.name}
+                        onClick={() => setTheme(t.name.toLowerCase() as "light" | "dark" | "system")}
+                        className={`p-4 rounded-lg border-2 text-center transition-colors ${theme === t.name.toLowerCase()
+                          ? "border-primary bg-primary/10"
+                          : "border-border hover:border-primary/50"
+                          }`}
                       >
-                        <i className={`fas ${theme.icon} text-xl mb-2 ${theme.name === "Light" ? "text-primary" : "text-muted-foreground"}`}></i>
-                        <p className="text-sm font-medium text-foreground">{theme.name}</p>
+                        <i className={`fas ${t.icon} text-xl mb-2 ${theme === t.name.toLowerCase() ? "text-primary" : "text-muted-foreground"}`}></i>
+                        <p className="text-sm font-medium text-foreground">{t.name}</p>
                       </button>
                     ))}
                   </div>

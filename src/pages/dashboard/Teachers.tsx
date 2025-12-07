@@ -1,24 +1,45 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { AddTeacherForm } from "@/components/dashboard/AddTeacherForm";
+import { toast } from "sonner";
 
 const Teachers = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAddOpen, setIsAddOpen] = useState(false);
 
-  const teachers = [
+  const [teachers, setTeachers] = useState([
     { id: 1, name: "Dr. John Williams", subject: "Mathematics", department: "Science", email: "john@school.edu", phone: "+1 234-567-8901", experience: "12 years", avatar: "JW" },
     { id: 2, name: "Ms. Sarah Parker", subject: "English", department: "Languages", email: "sarah@school.edu", phone: "+1 234-567-8902", experience: "8 years", avatar: "SP" },
     { id: 3, name: "Mr. Michael Brown", subject: "Physics", department: "Science", email: "michael@school.edu", phone: "+1 234-567-8903", experience: "15 years", avatar: "MB" },
     { id: 4, name: "Mrs. Emily Davis", subject: "Chemistry", department: "Science", email: "emily@school.edu", phone: "+1 234-567-8904", experience: "10 years", avatar: "ED" },
     { id: 5, name: "Dr. Robert Taylor", subject: "Biology", department: "Science", email: "robert@school.edu", phone: "+1 234-567-8905", experience: "18 years", avatar: "RT" },
     { id: 6, name: "Ms. Jennifer Lee", subject: "History", department: "Humanities", email: "jennifer@school.edu", phone: "+1 234-567-8906", experience: "6 years", avatar: "JL" },
-  ];
+  ]);
 
   const filteredTeachers = teachers.filter(teacher =>
     teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     teacher.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
     teacher.department.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleAddTeacher = (data: any) => {
+    const newTeacher = {
+      id: teachers.length + 1,
+      ...data,
+      avatar: data.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().substring(0, 2),
+    };
+    setTeachers([newTeacher, ...teachers]);
+    setIsAddOpen(false);
+    toast.success("Teacher added successfully");
+  };
 
   return (
     <div className="space-y-6">
@@ -28,10 +49,21 @@ const Teachers = () => {
           <h2 className="text-2xl font-bold text-foreground">Teachers</h2>
           <p className="text-muted-foreground">Manage teaching staff records</p>
         </div>
-        <Button className="gradient-primary text-primary-foreground">
-          <i className="fas fa-plus mr-2"></i>
-          Add Teacher
-        </Button>
+
+        <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+          <DialogTrigger asChild>
+            <Button className="gradient-primary text-primary-foreground">
+              <i className="fas fa-plus mr-2"></i>
+              Add Teacher
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Add New Teacher</DialogTitle>
+            </DialogHeader>
+            <AddTeacherForm onSubmit={handleAddTeacher} onCancel={() => setIsAddOpen(false)} />
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Search & Filters */}
@@ -59,7 +91,7 @@ const Teachers = () => {
               <i className="fas fa-chalkboard-teacher text-primary"></i>
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">87</p>
+              <p className="text-2xl font-bold text-foreground">{teachers.length}</p>
               <p className="text-sm text-muted-foreground">Total Teachers</p>
             </div>
           </div>
@@ -117,7 +149,7 @@ const Teachers = () => {
                 <i className="fas fa-ellipsis-v"></i>
               </button>
             </div>
-            
+
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm">
                 <i className="fas fa-building text-muted-foreground w-5"></i>

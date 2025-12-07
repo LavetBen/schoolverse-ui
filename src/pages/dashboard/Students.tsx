@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { AddStudentForm } from "@/components/dashboard/AddStudentForm";
+import { toast } from "sonner";
 
 const Students = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAddOpen, setIsAddOpen] = useState(false);
 
-  const students = [
+  const [students, setStudents] = useState([
     { id: 1, name: "Alice Johnson", class: "Grade 10-A", rollNo: "2024001", email: "alice@school.edu", phone: "+1 234-567-8901", status: "Active", avatar: "AJ" },
     { id: 2, name: "Bob Smith", class: "Grade 9-B", rollNo: "2024002", email: "bob@school.edu", phone: "+1 234-567-8902", status: "Active", avatar: "BS" },
     { id: 3, name: "Carol Davis", class: "Grade 11-C", rollNo: "2024003", email: "carol@school.edu", phone: "+1 234-567-8903", status: "Active", avatar: "CD" },
@@ -14,13 +24,24 @@ const Students = () => {
     { id: 6, name: "Frank Miller", class: "Grade 10-A", rollNo: "2024006", email: "frank@school.edu", phone: "+1 234-567-8906", status: "Active", avatar: "FM" },
     { id: 7, name: "Grace Lee", class: "Grade 9-C", rollNo: "2024007", email: "grace@school.edu", phone: "+1 234-567-8907", status: "Active", avatar: "GL" },
     { id: 8, name: "Henry Chen", class: "Grade 11-A", rollNo: "2024008", email: "henry@school.edu", phone: "+1 234-567-8908", status: "Active", avatar: "HC" },
-  ];
+  ]);
 
   const filteredStudents = students.filter(student =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.class.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.rollNo.includes(searchTerm)
   );
+
+  const handleAddStudent = (data: any) => {
+    const newStudent = {
+      id: students.length + 1,
+      ...data,
+      avatar: data.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().substring(0, 2),
+    };
+    setStudents([newStudent, ...students]);
+    setIsAddOpen(false);
+    toast.success("Student added successfully");
+  };
 
   return (
     <div className="space-y-6">
@@ -30,10 +51,21 @@ const Students = () => {
           <h2 className="text-2xl font-bold text-foreground">Students</h2>
           <p className="text-muted-foreground">Manage all student records</p>
         </div>
-        <Button className="gradient-primary text-primary-foreground">
-          <i className="fas fa-plus mr-2"></i>
-          Add Student
-        </Button>
+
+        <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+          <DialogTrigger asChild>
+            <Button className="gradient-primary text-primary-foreground">
+              <i className="fas fa-plus mr-2"></i>
+              Add Student
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Add New Student</DialogTitle>
+            </DialogHeader>
+            <AddStudentForm onSubmit={handleAddStudent} onCancel={() => setIsAddOpen(false)} />
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Search & Filters */}
@@ -65,7 +97,7 @@ const Students = () => {
               <i className="fas fa-users text-primary"></i>
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">1,234</p>
+              <p className="text-2xl font-bold text-foreground">{students.length}</p>
               <p className="text-sm text-muted-foreground">Total Students</p>
             </div>
           </div>
@@ -76,7 +108,7 @@ const Students = () => {
               <i className="fas fa-user-check text-success"></i>
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">1,180</p>
+              <p className="text-2xl font-bold text-foreground">{students.filter(s => s.status === 'Active').length}</p>
               <p className="text-sm text-muted-foreground">Active</p>
             </div>
           </div>
@@ -136,11 +168,10 @@ const Students = () => {
                   <td className="p-4 text-muted-foreground">{student.email}</td>
                   <td className="p-4 text-muted-foreground">{student.phone}</td>
                   <td className="p-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      student.status === "Active" 
-                        ? "bg-success/10 text-success" 
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${student.status === "Active"
+                        ? "bg-success/10 text-success"
                         : "bg-destructive/10 text-destructive"
-                    }`}>
+                      }`}>
                       {student.status}
                     </span>
                   </td>
@@ -165,7 +196,7 @@ const Students = () => {
 
         {/* Pagination */}
         <div className="flex items-center justify-between p-4 border-t border-border">
-          <p className="text-sm text-muted-foreground">Showing 1-8 of 1,234 students</p>
+          <p className="text-sm text-muted-foreground">Showing 1-8 of {students.length} students</p>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" disabled>
               <i className="fas fa-chevron-left"></i>
