@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import heroBg from "@/assets/hero-bg.jpg";
+import schoolBg from "@/assets/school-bg.jpg";
 
 const Index = () => {
   const features = [
@@ -70,16 +71,21 @@ const Index = () => {
         {/* Background Elements */}
         <div className="absolute inset-0">
           <div 
-            className="absolute inset-0 opacity-30"
+            className="absolute inset-0 opacity-20"
             style={{
               backgroundImage: `url(${heroBg})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/80"></div>
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl floating-element"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-info/20 rounded-full blur-3xl floating-element" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90"></div>
+          
+          {/* Decorative Lines */}
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-border/50 to-transparent"></div>
+          <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent"></div>
+          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
@@ -152,30 +158,6 @@ const Index = () => {
                   </div>
                 </div>
 
-                {/* Floating Cards */}
-                <div className="absolute -top-6 -right-6 glass rounded-2xl p-4 shadow-card floating-element">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-success/20 flex items-center justify-center">
-                      <i className="fas fa-check text-success"></i>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">Fees Collected</p>
-                      <p className="text-xs text-muted-foreground">$45,200 today</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute -bottom-4 -left-6 glass rounded-2xl p-4 shadow-card floating-element" style={{ animationDelay: '1s' }}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-                      <i className="fas fa-bell text-primary"></i>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">New Notification</p>
-                      <p className="text-xs text-muted-foreground">Parent meeting at 3PM</p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -276,11 +258,15 @@ const Index = () => {
 
       {/* CTA Section */}
       <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 gradient-hero opacity-95"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-foreground/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary-foreground/10 rounded-full blur-3xl"></div>
-        </div>
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${schoolBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <div className="absolute inset-0 bg-foreground/85"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mb-6">
             Ready to Transform Your School?
