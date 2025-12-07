@@ -91,12 +91,12 @@ const Index = () => {
                 <span className="text-sm font-medium text-foreground">Trusted by 500+ Schools Worldwide</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 animate-fade-in">
                 The Future of
                 <span className="block text-gradient">School Management</span>
               </h1>
               
-              <p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed animate-fade-in" style={{ animationDelay: "0.1s" }}>
+              <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed animate-fade-in" style={{ animationDelay: "0.1s" }}>
                 Transform your institution with NEXA — the all-in-one platform for attendance, finance, records, and performance management.
               </p>
               
@@ -200,12 +200,6 @@ const Index = () => {
           </div>
         </div>
         
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-8 h-12 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-2">
-            <div className="w-1 h-3 bg-primary rounded-full animate-pulse"></div>
-          </div>
-        </div>
       </section>
 
       {/* Stats Section */}
@@ -218,8 +212,8 @@ const Index = () => {
                 <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center">
                   <i className={`fas ${stat.icon} text-primary text-xl`}></i>
                 </div>
-                <p className="text-3xl md:text-4xl font-bold text-gradient mb-1">{stat.value}</p>
-                <p className="text-muted-foreground">{stat.label}</p>
+                <p className="text-2xl md:text-3xl font-bold text-gradient mb-1">{stat.value}</p>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -230,11 +224,11 @@ const Index = () => {
       <section className="py-24 bg-background relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
               Powerful Features
             </span>
-            <h2 className="section-title mb-4">Everything You Need to Excel</h2>
-            <p className="section-subtitle">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Everything You Need to Excel</h2>
+            <p className="text-base text-muted-foreground max-w-2xl mx-auto">
               Comprehensive tools designed to streamline every aspect of school management.
             </p>
           </div>
@@ -248,8 +242,8 @@ const Index = () => {
                 <div className={`feature-icon ${feature.color} mb-6 group-hover:scale-110`}>
                   <i className={`fas ${feature.icon}`}></i>
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                <h3 className="text-lg font-semibold text-foreground mb-3">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
                 <div className="mt-6 flex items-center text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn more <i className="fas fa-arrow-right ml-2 text-sm"></i>
                 </div>
@@ -264,11 +258,11 @@ const Index = () => {
         <div className="absolute inset-0 gradient-mesh"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
               Testimonials
             </span>
-            <h2 className="section-title mb-4">Loved by Educators</h2>
-            <p className="section-subtitle">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Loved by Educators</h2>
+            <p className="text-base text-muted-foreground max-w-2xl mx-auto">
               See what school administrators are saying about NEXA.
             </p>
           </div>
@@ -283,7 +277,7 @@ const Index = () => {
                     <i key={i} className="fas fa-star"></i>
                   ))}
                 </div>
-                <p className="text-foreground text-lg leading-relaxed mb-8">"{testimonial.content}"</p>
+                <p className="text-foreground text-base leading-relaxed mb-8">"{testimonial.content}"</p>
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 gradient-hero rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg">
                     {testimonial.avatar}
@@ -301,16 +295,16 @@ const Index = () => {
 
       {/* CTA Section */}
       <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 gradient-hero opacity-90"></div>
+        <div className="absolute inset-0 gradient-hero opacity-95"></div>
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-foreground/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary-foreground/10 rounded-full blur-3xl"></div>
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mb-6">
             Ready to Transform Your School?
           </h2>
-          <p className="text-primary-foreground/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+          <p className="text-primary-foreground/80 text-base md:text-lg mb-10 max-w-2xl mx-auto">
             Join hundreds of schools already using NEXA to streamline their operations and enhance learning outcomes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
