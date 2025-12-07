@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import nexaLogo from "@/assets/nexa-logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -35,11 +36,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-3 mb-4">
-              <div className="w-11 h-11 gradient-hero rounded-xl flex items-center justify-center">
-                <i className="fas fa-bolt text-lg"></i>
-              </div>
-              <span className="text-2xl font-bold tracking-tight">NEXA</span>
+            <Link to="/" className="flex items-center mb-4">
+              <img src={nexaLogo} alt="NEXA" className="h-10 w-auto brightness-0 invert" />
             </Link>
             <p className="text-primary-foreground/70 mb-6 max-w-sm">
               The future of school management. Empowering educators with modern technology to focus on what matters most — students.
