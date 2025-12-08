@@ -9,11 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { AddTeacherForm } from "@/components/dashboard/AddTeacherForm";
+import { EditTeacherForm } from "@/components/dashboard/EditTeacherForm";
 import { toast } from "sonner";
 
 const Teachers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [editingTeacher, setEditingTeacher] = useState<any>(null);
+  const [viewingTeacher, setViewingTeacher] = useState<any>(null);
 
   const [teachers, setTeachers] = useState([
     { id: 1, name: "Dr. John Williams", subject: "Mathematics", department: "Science", email: "john@school.edu", phone: "+1 234-567-8901", experience: "12 years", avatar: "JW" },
@@ -41,6 +44,12 @@ const Teachers = () => {
     toast.success("Teacher added successfully");
   };
 
+  const handleEditTeacher = (data: any) => {
+    setTeachers(teachers.map(t => t.id === editingTeacher.id ? { ...t, ...data } : t));
+    setEditingTeacher(null);
+    toast.success("Teacher updated successfully");
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -62,6 +71,62 @@ const Teachers = () => {
               <DialogTitle>Add New Teacher</DialogTitle>
             </DialogHeader>
             <AddTeacherForm onSubmit={handleAddTeacher} onCancel={() => setIsAddOpen(false)} />
+          </DialogContent>
+        </Dialog>
+
+        {/* Edit Dialog */}
+        <Dialog open={!!editingTeacher} onOpenChange={(open) => !open && setEditingTeacher(null)}>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Edit Teacher</DialogTitle>
+            </DialogHeader>
+            {editingTeacher && (
+              <EditTeacherForm
+                initialData={editingTeacher}
+                onSubmit={handleEditTeacher}
+                onCancel={() => setEditingTeacher(null)}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* View Dialog */}
+        <Dialog open={!!viewingTeacher} onOpenChange={(open) => !open && setViewingTeacher(null)}>
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogHeader>
+              <DialogTitle>Teacher Details</DialogTitle>
+            </DialogHeader>
+            {viewingTeacher && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 border-b pb-4">
+                  <div className="w-16 h-16 gradient-primary rounded-full flex items-center justify-center text-primary-foreground text-2xl font-bold">
+                    {viewingTeacher.avatar}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold">{viewingTeacher.name}</h3>
+                    <p className="text-muted-foreground">{viewingTeacher.subject}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Department</p>
+                    <p className="font-medium">{viewingTeacher.department}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Experience</p>
+                    <p className="font-medium">{viewingTeacher.experience}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Email</p>
+                    <p className="font-medium">{viewingTeacher.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Phone</p>
+                    <p className="font-medium">{viewingTeacher.phone}</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </DialogContent>
         </Dialog>
       </div>
@@ -170,11 +235,21 @@ const Teachers = () => {
             </div>
 
             <div className="flex gap-2 mt-4 pt-4 border-t border-border">
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => setViewingTeacher(teacher)}
+              >
                 <i className="fas fa-eye mr-2"></i>
                 View
               </Button>
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => setEditingTeacher(teacher)}
+              >
                 <i className="fas fa-edit mr-2"></i>
                 Edit
               </Button>

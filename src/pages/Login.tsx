@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/auth-provider";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Login = () => {
@@ -11,12 +12,14 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { login } = useAuth();
 
   const handleLogin = async (path: string) => {
     setIsLoading(true);
 
     // Simulate login
     setTimeout(() => {
+      login(path);
       setIsLoading(false);
       toast({
         title: "Welcome back!",
@@ -32,14 +35,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen gradient-hero flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <Link to="/" className="flex items-center justify-center gap-2 mb-8">
           <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center">
-            <i className="fas fa-graduation-cap text-primary-foreground text-xl"></i>
+            <i className="fas fa-bolt text-primary-foreground text-xl"></i>
           </div>
-          <span className="text-2xl font-bold text-foreground">EduManage</span>
+          <span className="text-2xl font-bold text-foreground">NEXA</span>
         </Link>
 
         {/* Login Card */}

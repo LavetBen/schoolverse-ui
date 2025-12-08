@@ -1,6 +1,25 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { CreateInvoiceForm } from "@/components/forms/CreateInvoiceForm";
+import { EditInvoiceForm } from "@/components/forms/EditInvoiceForm";
 
 const Finance = () => {
+  const [createOpen, setCreateOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
+
+  const handleEditClick = (invoice: any) => {
+    setSelectedInvoice(invoice);
+    setEditOpen(true);
+  };
   const stats = [
     { icon: "fa-coins", label: "Total Revenue", value: "$125,430", change: "+18%", color: "text-success bg-success/10" },
     { icon: "fa-file-invoice-dollar", label: "Pending Fees", value: "$23,500", change: "-5%", color: "text-warning bg-warning/10" },
@@ -37,10 +56,23 @@ const Finance = () => {
             <i className="fas fa-download mr-2"></i>
             Export Report
           </Button>
-          <Button className="gradient-primary text-primary-foreground">
-            <i className="fas fa-plus mr-2"></i>
-            Create Invoice
-          </Button>
+          <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+            <DialogTrigger asChild>
+              <Button className="gradient-primary text-primary-foreground">
+                <i className="fas fa-plus mr-2"></i>
+                Create Invoice
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>Create New Invoice</DialogTitle>
+                <DialogDescription>
+                  Generate a new invoice for a student.
+                </DialogDescription>
+              </DialogHeader>
+              <CreateInvoiceForm onSuccess={() => setCreateOpen(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
@@ -81,6 +113,7 @@ const Finance = () => {
                   <th className="text-left p-4 font-medium text-muted-foreground">Amount</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Date</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Status</th>
+                  <th className="text-left p-4 font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,13 +125,17 @@ const Finance = () => {
                     <td className="p-4 font-semibold text-foreground">{txn.amount}</td>
                     <td className="p-4 text-muted-foreground">{txn.date}</td>
                     <td className="p-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        txn.status === "Completed" ? "bg-success/10 text-success" :
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${txn.status === "Completed" ? "bg-success/10 text-success" :
                         txn.status === "Pending" ? "bg-warning/10 text-warning" :
-                        "bg-destructive/10 text-destructive"
-                      }`}>
+                          "bg-destructive/10 text-destructive"
+                        }`}>
                         {txn.status}
                       </span>
+                    </td>
+                    <td className="p-4">
+                      <Button variant="ghost" size="sm" onClick={() => handleEditClick(txn)}>
+                        <i className="fas fa-edit text-muted-foreground hover:text-primary"></i>
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -144,6 +181,23 @@ const Finance = () => {
           })}
         </div>
       </div>
+
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Invoice</DialogTitle>
+            <DialogDescription>
+              Update invoice details.
+            </DialogDescription>
+          </DialogHeader>
+          {selectedInvoice && (
+            <EditInvoiceForm
+              initialData={selectedInvoice}
+              onSuccess={() => setEditOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

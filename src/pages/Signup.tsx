@@ -23,7 +23,7 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Error",
@@ -47,14 +47,14 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen gradient-hero flex items-center justify-center p-4 py-12">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 py-12">
       <div className="w-full max-w-md">
         {/* Logo */}
         <Link to="/" className="flex items-center justify-center gap-2 mb-8">
           <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center">
-            <i className="fas fa-graduation-cap text-primary-foreground text-xl"></i>
+            <i className="fas fa-bolt text-primary-foreground text-xl"></i>
           </div>
-          <span className="text-2xl font-bold text-foreground">EduManage</span>
+          <span className="text-2xl font-bold text-foreground">NEXA</span>
         </Link>
 
         {/* Signup Card */}

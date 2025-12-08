@@ -1,16 +1,16 @@
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { accountantNav } from "@/config/navigation";
-import DashboardHome from "@/pages/dashboard/DashboardHome";
+import AccountantHome from "@/pages/dashboard/AccountantHome";
 import Finance from "@/pages/dashboard/Finance";
 import Records from "@/pages/dashboard/Records";
 import Settings from "@/pages/dashboard/Settings";
 
 const AccountantDashboard = () => {
     return (
-        <DashboardLayout navItems={accountantNav} userRole="Accountant">
+        <DashboardLayout navItems={accountantNav}>
             <Routes>
-                <Route path="/" element={<DashboardHome />} />
+                <Route path="/" element={<AccountantHome />} />
                 <Route path="/finance" element={<Finance />} />
                 <Route path="/records" element={<Records />} />
                 <Route path="/settings" element={<Settings />} />

@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { teacherNav } from "@/config/navigation";
-import DashboardHome from "@/pages/dashboard/DashboardHome";
+import TeacherHome from "@/pages/dashboard/TeacherHome";
 import Students from "@/pages/dashboard/Students";
 import Attendance from "@/pages/dashboard/Attendance";
 import Exams from "@/pages/dashboard/Exams";
@@ -9,9 +9,9 @@ import Notices from "@/pages/dashboard/Notices";
 
 const TeacherDashboard = () => {
     return (
-        <DashboardLayout navItems={teacherNav} userRole="Teacher">
+        <DashboardLayout navItems={teacherNav}>
             <Routes>
-                <Route path="/" element={<DashboardHome />} />
+                <Route path="/" element={<TeacherHome />} />
                 <Route path="/students" element={<Students />} />
                 <Route path="/attendance" element={<Attendance />} />
                 <Route path="/exams" element={<Exams />} />

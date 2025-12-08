@@ -13,7 +13,7 @@ import Settings from "@/pages/dashboard/Settings";
 
 const AdminDashboard = () => {
     return (
-        <DashboardLayout navItems={adminNav} userRole="Admin User">
+        <DashboardLayout navItems={adminNav}>
             <Routes>
                 <Route path="/" element={<DashboardHome />} />
                 <Route path="/students" element={<Students />} />

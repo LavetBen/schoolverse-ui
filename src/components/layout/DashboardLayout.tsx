@@ -2,18 +2,24 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SidebarItem } from "@/config/navigation";
+import { useAuth } from "@/context/auth-provider";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
   navItems: SidebarItem[];
-  userRole: string;
 }
 
-const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children, navItems }: { children: React.ReactNode; navItems: SidebarItem[] }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   const getPageTitle = () => {
     const currentItem = navItems.find(item => item.path === location.pathname);
@@ -57,19 +63,19 @@ const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps)
           <div className="p-4 border-t border-border">
             <div className={`flex items-center gap-3 mb-4 ${sidebarOpen ? "" : "justify-center"}`}>
               <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-semibold flex-shrink-0">
-                {userRole.substring(0, 2).toUpperCase()}
+                {user?.name.substring(0, 2).toUpperCase()}
               </div>
               {sidebarOpen && (
                 <div className="overflow-hidden">
-                  <p className="font-medium text-foreground text-sm truncate">{userRole}</p>
-                  <p className="text-xs text-muted-foreground truncate">{userRole.toLowerCase().replace(" ", "")}@school.edu</p>
+                  <p className="font-medium text-foreground text-sm truncate">{user?.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                 </div>
               )}
             </div>
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => navigate("/")}
+              onClick={handleLogout}
             >
               <i className="fas fa-sign-out-alt mr-2"></i>
               {sidebarOpen && "Logout"}

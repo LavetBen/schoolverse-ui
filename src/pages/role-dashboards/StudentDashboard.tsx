@@ -10,7 +10,7 @@ import StudentProfile from "@/pages/dashboard/StudentProfile";
 
 const StudentDashboard = () => {
     return (
-        <DashboardLayout navItems={studentNav} userRole="Student">
+        <DashboardLayout navItems={studentNav}>
             <Routes>
                 <Route path="/" element={<StudentProfile />} />
                 <Route path="/results" element={<StudentResults />} />

@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import heroBg from "@/assets/hero-bg.jpg";
 import schoolBg from "@/assets/school-bg.jpg";
+import erpImage from "@/assets/erp-transform.png";
 
 const Index = () => {
   const features = [
@@ -70,7 +71,7 @@ const Index = () => {
       <section className="relative min-h-screen flex items-center pt-20">
         {/* Background Elements */}
         <div className="absolute inset-0">
-          <div 
+          <div
             className="absolute inset-0 opacity-20"
             style={{
               backgroundImage: `url(${heroBg})`,
@@ -79,7 +80,7 @@ const Index = () => {
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/90"></div>
-          
+
           {/* Decorative Lines */}
           <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
           <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-border/50 to-transparent"></div>
@@ -87,7 +88,7 @@ const Index = () => {
           <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent"></div>
           <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
@@ -96,27 +97,27 @@ const Index = () => {
                 <span className="w-2 h-2 bg-success rounded-full animate-pulse"></span>
                 <span className="text-sm font-medium text-foreground">Trusted by 500+ Schools Worldwide</span>
               </div>
-              
+
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 animate-fade-in">
                 The Future of
                 <span className="block text-gradient">School Management</span>
               </h1>
-              
+
               <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed animate-fade-in" style={{ animationDelay: "0.1s" }}>
                 Transform your institution with NEXA — the all-in-one platform for attendance, finance, records, and performance management.
               </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+
+              <div className="flex flex-row gap-4 mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
                 <Link to="/signup">
-                  <Button size="lg" className="btn-primary text-base px-8 py-6 rounded-full group">
+                  <Button size="lg" className="btn-primary text-base px-5 md:px-8 py-6 rounded-full group">
                     Start Free Trial
                     <i className="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
                   </Button>
                 </Link>
                 <Link to="/demo">
-                  <Button size="lg" variant="outline" className="text-base px-8 py-6 rounded-full border-2 group">
+                  <Button size="lg" variant="outline" className="text-base px-5 md:px-8 py-6 rounded-full border-2 group">
                     <i className="fas fa-play-circle mr-2"></i>
-                    Watch Demo
+                    Demo
                   </Button>
                 </Link>
               </div>
@@ -162,26 +163,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-        
+
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 gradient-mesh opacity-50"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <div key={index} className="glass rounded-2xl p-6 text-center card-hover">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <i className={`fas ${stat.icon} text-primary text-xl`}></i>
-                </div>
-                <p className="text-2xl md:text-3xl font-bold text-gradient mb-1">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Features Section */}
       <section className="py-24 bg-background relative">
@@ -257,36 +242,40 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${schoolBg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-foreground/85"></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mb-6">
-            Ready to Transform Your School?
-          </h2>
-          <p className="text-primary-foreground/80 text-base md:text-lg mb-10 max-w-2xl mx-auto">
-            Join hundreds of schools already using NEXA to streamline their operations and enhance learning outcomes.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/signup">
-              <Button size="lg" className="bg-card text-foreground hover:bg-card/90 text-base px-10 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all">
-                Start Free Trial
-                <i className="fas fa-arrow-right ml-2"></i>
-              </Button>
-            </Link>
-            <Link to="/demo">
-              <Button size="lg" variant="outline" className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 text-base px-10 py-6 rounded-full">
-                <i className="fas fa-calendar-alt mr-2"></i>
-                Schedule Demo
-              </Button>
-            </Link>
+      <section className="py-24 relative overflow-hidden bg-foreground/5">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-left">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Ready to Transform Your School?
+              </h2>
+              <p className="text-muted-foreground text-base md:text-lg mb-10">
+                Join hundreds of schools already using NEXA to streamline their operations, automate workflows, and enhance learning outcomes with our comprehensive ERP solution.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/signup">
+                  <Button size="lg" className="btn-primary text-base px-10 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all">
+                    Start Free Trial
+                    <i className="fas fa-arrow-right ml-2"></i>
+                  </Button>
+                </Link>
+                <Link to="/demo">
+                  <Button size="lg" variant="outline" className="text-base px-10 py-6 rounded-full border-foreground/20 hover:bg-foreground/5">
+                    <i className="fas fa-calendar-alt mr-2"></i>
+                    Schedule Demo
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-3xl blur-3xl opacity-30 animate-pulse"></div>
+              <img
+                src={erpImage}
+                alt="School Management ERP System"
+                className="relative rounded-2xl shadow-2xl border border-border/50 bg-background/50 backdrop-blur-sm w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-500"
+              />
+            </div>
           </div>
         </div>
       </section>
