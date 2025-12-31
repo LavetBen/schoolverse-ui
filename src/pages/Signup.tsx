@@ -2,22 +2,24 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/auth-provider";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
-    schoolName: "",
     password: "",
     confirmPassword: "",
+    role: "STUDENT"
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { register } = useAuth();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -35,15 +37,27 @@ const Signup = () => {
 
     setIsLoading(true);
 
-    // Simulate signup
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await register({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        role: [formData.role] // Backend expects array of strings
+      });
       toast({
         title: "Account created!",
-        description: "Welcome to EduManage. Let's get started!",
+        description: "You have successfully registered. Please sign in.",
       });
-      navigate("/dashboard");
-    }, 1000);
+      navigate("/login");
+    } catch (error: any) {
+      toast({
+        title: "Registration Failed",
+        description: error.response?.data?.message || "Could not create account.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -61,23 +75,23 @@ const Signup = () => {
         <div className="bg-card rounded-2xl border border-border shadow-xl p-8 animate-scale-in">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-foreground mb-2">Create Account</h1>
-            <p className="text-muted-foreground">Start your 30-day free trial</p>
+            <p className="text-muted-foreground">Sign up to get started</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name */}
+            {/* Username */}
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
-                Full Name
+                Username
               </label>
               <div className="relative">
                 <i className="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
-                  placeholder="Enter your name"
+                  placeholder="Enter your username"
                   className="input-field pl-11"
                   required
                 />
@@ -103,22 +117,25 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* School Name */}
+            {/* Role Selection */}
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
-                School Name
+                Select Role
               </label>
               <div className="relative">
-                <i className="fas fa-school absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                <input
-                  type="text"
-                  name="schoolName"
-                  value={formData.schoolName}
+                <i className="fas fa-user-tag absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                <select
+                  name="role"
+                  value={formData.role}
                   onChange={handleChange}
-                  placeholder="Enter school name"
                   className="input-field pl-11"
                   required
-                />
+                >
+                  <option value="STUDENT">Student</option>
+                  <option value="TEACHER">Teacher</option>
+                  <option value="ACCOUNTANT">Accountant</option>
+                  <option value="ADMIN">Admin</option>
+                </select>
               </div>
             </div>
 

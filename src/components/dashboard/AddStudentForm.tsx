@@ -11,94 +11,64 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { toast } from "sonner";
+import { AddStudentRequest } from "@/services/student.service";
 
 const formSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    rollNo: z.string().min(1, "Roll number is required"),
-    class: z.string().min(1, "Class is required"),
+    username: z.string().min(3, "Username must be at least 3 characters"),
     email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    firstName: z.string().min(2, "First Name must be at least 2 characters"),
+    lastName: z.string().min(2, "Last Name must be at least 2 characters"),
+    dob: z.string().min(1, "Date of Birth is required"),
     phone: z.string().min(10, "Phone number must be at least 10 characters"),
-    status: z.enum(["Active", "Inactive"]),
+    address: z.string().min(5, "Address must be at least 5 characters"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 interface AddStudentFormProps {
-    onSubmit: (data: FormValues) => void;
+    onSubmit: (data: AddStudentRequest) => void;
     onCancel?: () => void;
+    isLoading?: boolean;
 }
 
-export function AddStudentForm({ onSubmit, onCancel }: AddStudentFormProps) {
+export function AddStudentForm({ onSubmit, onCancel, isLoading }: AddStudentFormProps) {
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            rollNo: "",
-            class: "",
+            username: "",
             email: "",
+            password: "",
+            firstName: "",
+            lastName: "",
+            dob: "",
             phone: "",
-            status: "Active",
+            address: "",
         },
     });
 
     const handleSubmit = (data: FormValues) => {
         onSubmit(data);
-        form.reset();
+        // Do not reset here, let the parent handle success/reset
     };
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Full Name</FormLabel>
-                            <FormControl>
-                                <Input placeholder="John Doe" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
                 <div className="grid grid-cols-2 gap-4">
                     <FormField
                         control={form.control}
-                        name="rollNo"
+                        name="username"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Roll Number</FormLabel>
+                                <FormLabel>Username</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="2024001" {...field} />
+                                    <Input placeholder="student1" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="class"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Class</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Grade 10-A" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
                     <FormField
                         control={form.control}
                         name="email"
@@ -106,7 +76,23 @@ export function AddStudentForm({ onSubmit, onCancel }: AddStudentFormProps) {
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="john@school.edu" type="email" {...field} />
+                                    <Input placeholder="student@school.com" type="email" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Password</FormLabel>
+                                <FormControl>
+                                    <Input type="password" placeholder="******" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -114,46 +100,86 @@ export function AddStudentForm({ onSubmit, onCancel }: AddStudentFormProps) {
                     />
                     <FormField
                         control={form.control}
-                        name="phone"
+                        name="dob"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Phone</FormLabel>
+                                <FormLabel>Date of Birth</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="+1 234-567-8900" {...field} />
+                                    <Input type="date" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
                 </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="firstName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>First Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Alice" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="lastName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Last Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Smith" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
                 <FormField
                     control={form.control}
-                    name="status"
+                    name="phone"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Status</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select status" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    <SelectItem value="Active">Active</SelectItem>
-                                    <SelectItem value="Inactive">Inactive</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <FormLabel>Phone</FormLabel>
+                            <FormControl>
+                                <Input placeholder="555-0199" {...field} />
+                            </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+
+                <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Address</FormLabel>
+                            <FormControl>
+                                <Input placeholder="123 School Lane" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
                 <div className="flex justify-end gap-2 pt-4">
                     {onCancel && (
-                        <Button type="button" variant="outline" onClick={onCancel}>
+                        <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
                             Cancel
                         </Button>
                     )}
-                    <Button type="submit">Add Student</Button>
+                    <Button type="submit" disabled={isLoading}>
+                        {isLoading && <i className="fas fa-spinner fa-spin mr-2"></i>}
+                        Add Student
+                    </Button>
                 </div>
             </form>
         </Form>

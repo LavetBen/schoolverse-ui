@@ -1,17 +1,20 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { authService, RegisterRequest } from "@/services/auth.service";
 
 type UserRole = "admin" | "accountant" | "teacher" | "student";
 
-interface User {
+export interface User {
     name: string;
     email: string;
     role: UserRole;
+    token?: string;
 }
 
 interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
-    login: (path: string) => void;
+    login: (username: string, password: string) => Promise<void>;
+    register: (data: RegisterRequest) => Promise<string>;
     logout: () => void;
 }
 
@@ -30,41 +33,50 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    const login = (path: string) => {
-        // Determine details based on path/simulation
-        let role: UserRole = "student";
-        let name = "Student User";
+    const login = async (username: string, password: string) => {
+        try {
+            const data = await authService.login(username, password);
+            // Map backend response to User interface
+            // Backend returns roles as string[] but frontend expects UserRole (single string)
+            // We'll take the first role for now or map accordingly.
+            // Assumption: User has one primary role for the UI context
+            let primaryRole: UserRole = "student";
+            if (data.role) {
+                const roleStr = data.role.toLowerCase();
+                if (roleStr === "admin" || roleStr === "role_admin") primaryRole = "admin";
+                else if (roleStr === "accountant" || roleStr === "role_accountant") primaryRole = "accountant";
+                else if (roleStr === "teacher" || roleStr === "role_teacher") primaryRole = "teacher";
+                else if (roleStr === "student" || roleStr === "role_student") primaryRole = "student";
+            }
 
-        if (path.includes("admin")) {
-            role = "admin";
-            name = "Admin User";
-        } else if (path.includes("accountant")) {
-            role = "accountant";
-            name = "Accountant User";
-        } else if (path.includes("teacher")) {
-            role = "teacher";
-            name = "Teacher User";
+            const newUser: User = {
+                name: data.username,
+                email: data.email,
+                role: primaryRole,
+                token: data.token
+            };
+
+            setUser(newUser);
+            setIsAuthenticated(true);
+            localStorage.setItem("schoolverse_user", JSON.stringify(newUser));
+        } catch (error) {
+            console.error("Login failed", error);
+            throw error;
         }
-
-        const newUser: User = {
-            name,
-            email: `${role}@school.edu`,
-            role,
-        };
-
-        setUser(newUser);
-        setIsAuthenticated(true);
-        localStorage.setItem("schoolverse_user", JSON.stringify(newUser));
     };
 
+    const register = async (registerData: RegisterRequest) => {
+        return authService.register(registerData);
+    }
+
     const logout = () => {
+        authService.logout();
         setUser(null);
         setIsAuthenticated(false);
-        localStorage.removeItem("schoolverse_user");
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );

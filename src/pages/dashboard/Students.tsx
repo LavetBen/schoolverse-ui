@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,6 +11,7 @@ import {
 import { AddStudentForm } from "@/components/dashboard/AddStudentForm";
 import { EditStudentForm } from "@/components/dashboard/EditStudentForm";
 import { toast } from "sonner";
+import { studentService } from "@/services/student.service";
 
 const Students = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,32 +19,52 @@ const Students = () => {
   const [editingStudent, setEditingStudent] = useState<any>(null);
   const [viewingStudent, setViewingStudent] = useState<any>(null);
 
-  const [students, setStudents] = useState([
-    { id: 1, name: "Alice Johnson", class: "Grade 10-A", rollNo: "2024001", email: "alice@school.edu", phone: "+1 234-567-8901", status: "Active", avatar: "AJ" },
-    { id: 2, name: "Bob Smith", class: "Grade 9-B", rollNo: "2024002", email: "bob@school.edu", phone: "+1 234-567-8902", status: "Active", avatar: "BS" },
-    { id: 3, name: "Carol Davis", class: "Grade 11-C", rollNo: "2024003", email: "carol@school.edu", phone: "+1 234-567-8903", status: "Active", avatar: "CD" },
-    { id: 4, name: "David Wilson", class: "Grade 8-A", rollNo: "2024004", email: "david@school.edu", phone: "+1 234-567-8904", status: "Inactive", avatar: "DW" },
-    { id: 5, name: "Emma Brown", class: "Grade 12-B", rollNo: "2024005", email: "emma@school.edu", phone: "+1 234-567-8905", status: "Active", avatar: "EB" },
-    { id: 6, name: "Frank Miller", class: "Grade 10-A", rollNo: "2024006", email: "frank@school.edu", phone: "+1 234-567-8906", status: "Active", avatar: "FM" },
-    { id: 7, name: "Grace Lee", class: "Grade 9-C", rollNo: "2024007", email: "grace@school.edu", phone: "+1 234-567-8907", status: "Active", avatar: "GL" },
-    { id: 8, name: "Henry Chen", class: "Grade 11-A", rollNo: "2024008", email: "henry@school.edu", phone: "+1 234-567-8908", status: "Active", avatar: "HC" },
-  ]);
+  const [students, setStudents] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  const fetchStudents = async () => {
+    try {
+      const data = await studentService.getAllStudents();
+      const enrichedData = data.map((student: any) => ({
+        ...student,
+        rollNo: student.rollNo || "N/A",
+        class: student.class || "N/A",
+        status: student.status || "Active",
+        avatar: (student.firstName?.[0] || "") + (student.lastName?.[0] || "") || "ST",
+        name: `${student.firstName || ""} ${student.lastName || ""}`.trim() || student.username
+      }));
+      setStudents(enrichedData);
+    } catch (error) {
+      console.error("Failed to fetch students", error);
+      toast.error("Failed to fetch students list");
+    }
+  };
 
   const filteredStudents = students.filter(student =>
-    student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.class.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    student.rollNo.includes(searchTerm)
+    (student.name?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+    (student.class?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+    (student.rollNo?.toLowerCase() || "").includes(searchTerm.toLowerCase())
   );
 
-  const handleAddStudent = (data: any) => {
-    const newStudent = {
-      id: students.length + 1,
-      ...data,
-      avatar: data.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().substring(0, 2),
-    };
-    setStudents([newStudent, ...students]);
-    setIsAddOpen(false);
-    toast.success("Student added successfully");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // ... (keep existing state)
+
+  const handleAddStudent = async (data: any) => {
+    setIsLoading(true);
+    try {
+      await studentService.addStudent(data);
+      toast.success("Student added successfully");
+      setIsAddOpen(false);
+      fetchStudents();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to add student");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleEditStudent = (data: any) => {
@@ -72,7 +93,7 @@ const Students = () => {
             <DialogHeader>
               <DialogTitle>Add New Student</DialogTitle>
             </DialogHeader>
-            <AddStudentForm onSubmit={handleAddStudent} onCancel={() => setIsAddOpen(false)} />
+            <AddStudentForm onSubmit={handleAddStudent} onCancel={() => setIsAddOpen(false)} isLoading={isLoading} />
           </DialogContent>
         </Dialog>
 

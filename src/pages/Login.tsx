@@ -6,7 +6,7 @@ import { useAuth } from "@/context/auth-provider";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,24 +14,41 @@ const Login = () => {
   const { toast } = useToast();
   const { login } = useAuth();
 
-  const handleLogin = async (path: string) => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
 
-    // Simulate login
-    setTimeout(() => {
-      login(path);
-      setIsLoading(false);
+    try {
+      await login(username, password);
+      // login function will set the user in context/local storage
+      // we need to get access to the user role to redirect correctly
+      // Since `login` is now async and sets state, we might rely on the side effect or read from storage temporarily for redirect
+      const userStr = localStorage.getItem("schoolverse_user");
+      let path = "/student";
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        // Ensure role matching is robust
+        const role = user.role?.toLowerCase();
+        if (role === 'admin') path = "/admin";
+        else if (role === 'accountant') path = "/accountant";
+        else if (role === 'teacher') path = "/teacher";
+        else if (role === 'student') path = "/student";
+      }
+
       toast({
         title: "Welcome back!",
-        description: `You have successfully logged in as ${path.split("/")[1]}.`,
+        description: "You have successfully logged in.",
       });
       navigate(path);
-    }, 1000);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handleLogin("/admin"); // Default to admin if form submitted directly
+    } catch (error: any) {
+      toast({
+        title: "Login Failed",
+        description: error.response?.data?.message || "Invalid credentials or server error",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -52,19 +69,19 @@ const Login = () => {
             <p className="text-muted-foreground">Sign in to your account to continue</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
+          <form onSubmit={handleLogin} className="space-y-5">
+            {/* Username */}
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
-                Email Address
+                Username
               </label>
               <div className="relative">
-                <i className="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                <i className="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter your username"
                   className="input-field pl-11"
                   required
                 />
@@ -108,54 +125,15 @@ const Login = () => {
             </div>
 
             {/* Submit */}
-            {/* Role Selection (Simulation) */}
-            <div className="space-y-3">
-              <label className="block text-sm font-medium text-foreground">
-                Select Role to Simulate Login
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  type="button"
-                  onClick={() => handleLogin("/admin")}
-                  className="w-full"
-                  variant="outline"
-                  disabled={isLoading}
-                >
-                  <i className="fas fa-user-shield mr-2"></i>
-                  Admin
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => handleLogin("/accountant")}
-                  className="w-full"
-                  variant="outline"
-                  disabled={isLoading}
-                >
-                  <i className="fas fa-calculator mr-2"></i>
-                  Accountant
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => handleLogin("/teacher")}
-                  className="w-full"
-                  variant="outline"
-                  disabled={isLoading}
-                >
-                  <i className="fas fa-chalkboard-teacher mr-2"></i>
-                  Teacher
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => handleLogin("/student")}
-                  className="w-full"
-                  variant="outline"
-                  disabled={isLoading}
-                >
-                  <i className="fas fa-user-graduate mr-2"></i>
-                  Student
-                </Button>
-              </div>
-            </div>
+            <Button type="submit" className="w-full btn-primary" disabled={isLoading}>
+              {isLoading ? (
+                <i className="fas fa-spinner fa-spin mr-2"></i>
+              ) : (
+                <i className="fas fa-sign-in-alt mr-2"></i>
+              )}
+              {isLoading ? "Signing in..." : "Sign In"}
+            </Button>
+
           </form>
 
           {/* Divider */}

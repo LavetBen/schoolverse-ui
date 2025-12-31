@@ -63,7 +63,7 @@ const DashboardLayout = ({ children, navItems }: { children: React.ReactNode; na
           <div className="p-4 border-t border-border">
             <div className={`flex items-center gap-3 mb-4 ${sidebarOpen ? "" : "justify-center"}`}>
               <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-semibold flex-shrink-0">
-                {user?.name.substring(0, 2).toUpperCase()}
+                {(user?.name || "User").substring(0, 2).toUpperCase()}
               </div>
               {sidebarOpen && (
                 <div className="overflow-hidden">
