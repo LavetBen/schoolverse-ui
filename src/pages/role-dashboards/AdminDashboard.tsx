@@ -9,6 +9,7 @@ import Attendance from "@/pages/dashboard/Attendance";
 import Exams from "@/pages/dashboard/Exams";
 import Records from "@/pages/dashboard/Records";
 import Notices from "@/pages/dashboard/Notices";
+import Staff from "@/pages/dashboard/Staff";
 import Settings from "@/pages/dashboard/Settings";
 
 const AdminDashboard = () => {
@@ -22,6 +23,7 @@ const AdminDashboard = () => {
                 <Route path="/attendance" element={<Attendance />} />
                 <Route path="/exams" element={<Exams />} />
                 <Route path="/records" element={<Records />} />
+                <Route path="/staff" element={<Staff />} />
                 <Route path="/notices" element={<Notices />} />
                 <Route path="/settings" element={<Settings />} />
             </Routes>

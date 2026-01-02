@@ -13,6 +13,7 @@ export const adminNav: SidebarItem[] = [
     { id: "attendance", icon: "fa-clock", label: "Attendance", path: "/admin/attendance" },
     { id: "exams", icon: "fa-file-alt", label: "Exams", path: "/admin/exams" },
     { id: "records", icon: "fa-book-open", label: "Records", path: "/admin/records" },
+    { id: "staff", icon: "fa-users-cog", label: "Staff", path: "/admin/staff" },
     { id: "notices", icon: "fa-bell", label: "Notices", path: "/admin/notices" },
     { id: "settings", icon: "fa-cog", label: "Settings", path: "/admin/settings" },
 ];
